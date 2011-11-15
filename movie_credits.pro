@@ -21,7 +21,6 @@ MODINSTDIR = movie_credits
 include(../modules.pri)
 
 OTHER_FILES = movie_credits.xl \
-    movie_credits2.xl \
     doc/movie_credits.png \
     doc/movie_credits.ddd \
     icon.png
@@ -35,18 +34,8 @@ PICTURES = \
 pics.path  = $$MODINSTPATH/images
 pics.files = $$PICTURES
 
-CRYPT_XL_SOURCES = movie_credits2.xl
-include(../crypt_xl.pri)
-
 INSTALLS    += thismod_icon pics
 INSTALLS    -= thismod_bin
 
 HEADERS += \
     doc/movie_credits.doxy.h
-
-LICENSE_FILES = movie_credits.taokey.notsigned
-include(../licenses.pri)
-
-QMAKE_SUBSTITUTES = doc/Doxyfile.in
-DOXYFILE = doc/Doxyfile
-include(../modules_doc.pri)
