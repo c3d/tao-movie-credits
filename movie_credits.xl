@@ -36,11 +36,25 @@ module_description "fr",
     description "Quelques exemples de génériques de films classiques"
 
 
-// ****************************************************************************
+
+// ============================================================================
+//
+//   Configuration 
+//
+// ============================================================================
+
+// Size of the frame texture we use to accelerate rendering
+mc_width -> 1200
+mc_height -> 2500
+mc_size W:integer, H:integer -> mc_width := W; mc_height := H
+
+
+
+// ============================================================================
 // 
 //   Star Wars crawl
 // 
-// ****************************************************************************
+// ============================================================================
 
 mc_star_wars_crawl Duration:real, Body ->
 // ----------------------------------------------------------------------------
@@ -105,14 +119,19 @@ mc_credits Duration:real, Speed:real, Body ->
 // ----------------------------------------------------------------------------
 //    Final credits
 // ----------------------------------------------------------------------------
+    // Do not refresh because of external timer events
+    no_refresh_on TimerEvent
+
     locally
-        mc_credits_y := -window_height * 0.55 + Speed * page_time
-        translatey mc_credits_y
-        vertical_align 0.5
-        align 0.5
-        font "Baskerville", "Times", 36
         color "white"
-        Body
+        frame_texture mc_width, mc_height,
+            vertical_align 0.5
+            align 0.5
+            font "Baskerville", "Times", 36
+            Body
+
+        locally
+            rectangle 0, Speed*page_time-window_height*0.55, mc_width,mc_height
 
 
 mc_credits_skip H:real ->
@@ -120,28 +139,20 @@ mc_credits_skip H:real ->
 //   Skip a given height
 // ----------------------------------------------------------------------------
     translatey -H
-    mc_credits_y := mc_credits_y - H
-
-
-mc_credits_visible -> (mc_credits_y>-window_height and mc_credits_y<window_height)
-// ----------------------------------------------------------------------------
-//   Tells if the current credit is visible
-// ----------------------------------------------------------------------------
 
 
 mc_credit Role:text, Name:text ->
 // ----------------------------------------------------------------------------
 //   Display a single credit
 // ----------------------------------------------------------------------------
-    if mc_credits_visible then
-        mcx -> mc_credits_width * 0.5
-        mcw -> mc_credits_width * 0.95
-        text_box -mcx, 0, mcw, mc_credits_height,
-            align 1
-            text Role
-        text_box mcx, 0, mcw, mc_credits_height,
-            align 0
-            text Name
+    mcx -> mc_credits_width * 0.5
+    mcw -> mc_credits_width * 0.95
+    text_box -mcx, 0, mcw, mc_credits_height,
+        align 1
+        text Role
+    text_box mcx, 0, mcw, mc_credits_height,
+        align 0
+        text Name
     mc_credits_skip mc_credits_height
 
 
@@ -149,11 +160,10 @@ mc_credits_section H:real, Body ->
 // ----------------------------------------------------------------------------
 //   Add a centered section
 // ----------------------------------------------------------------------------
-    if mc_credits_visible then
-        text_box 0, -H/2, mc_credits_width, H,
-            align 0.5
-            vertical_align 0.5
-            Body
+    text_box 0, -H/2, mc_credits_width, H,
+        align 0.5
+        vertical_align 0.5
+        Body
     mc_credits_skip H
 
 
@@ -165,10 +175,8 @@ mc_credits_section H:real, Body ->
 // Width and height of an item
 mc_credits_height -> 50.0
 mc_credits_height H:real -> mc_credits_height := H
-mc_credits_width -> 900.0
+mc_credits_width -> 600.0
 mc_credits_width W:real -> mc_credits_width := W
-
-mc_credits_y -> 0.0
 
 
 
@@ -203,7 +211,6 @@ mc_swc_planet Delay:real, Texture:text ->
 // ----------------------------------------------------------------------------
 //   Draw the planet with the given texture
 // ----------------------------------------------------------------------------
-
     locally
         color "white"
         texture mc_swc_planet_texture
@@ -232,19 +239,25 @@ mc_swc_text Duration:real, Body ->
 // ----------------------------------------------------------------------------
 //   Draw the Star Wars scrolling text
 // ----------------------------------------------------------------------------
-    locally 
-        vertical_align 0.0 
-        align 0.5, 1.0
-        color 1, 0.8, 0.2, 0.9+0.9*expm1 (Duration-page_time)
-        line_color 1, 0.8, 0.2, 0.9+0.9*expm1 (Duration-page_time)
-        line_width 0.05
-        font "Arial Narrow", 64, bold 
-        translate 0, -384, 0
-        rotatex -80
-        translatey -3000 + 6000 * page_time / Duration
-        scale 1, 3, 1
-        paragraph_space 50, 50
-        text_box 0, 0, 1200, 2000, Body
+    // Surrounding timer events shouldn't cause re-evaluation of frame texture
+    no_refresh_on TimerEvent
+
+    locally
+        frame_texture mc_width, mc_height,
+            vertical_align 0.0 
+            align 0.5, 1.0
+            font "Arial Narrow", 64, bold 
+            paragraph_space 50, 50
+            color "white"
+            text_box 0, 0, 1200, 2000, Body
+
+        locally
+            translate 0, -window_height/2, 0
+            rotatex -80
+            translatey mc_height * (3 * page_time / Duration - 1.5)
+            color 1, 0.8, 0.2, 0.9+0.9*expm1 (Duration-page_time)
+            scale 1, 3, 1
+            rectangle 0, 0, mc_width, mc_height
 
 
 // Add this module's images/ directory to the image search path
