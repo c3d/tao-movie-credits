@@ -50,8 +50,9 @@ mc_star_wars_crawl Duration:real, Body ->
         rotatex 5 * fade_in(page_time - Duration, 20)
 
     mc_swc_background
-    mc_swc_planet Duration, mc_swc_planet_texture
-    mc_swc_text Duration, Body
+    if check_license ("MovieCredits 1.0", false) or blink (1.0, 1.0) then
+        mc_swc_planet Duration, mc_swc_planet_texture
+        mc_swc_text Duration, Body
 
 
 mc_star_wars_crawl_ship Delay:real, Speed:real, Body ->
