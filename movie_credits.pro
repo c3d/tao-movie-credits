@@ -43,6 +43,3 @@ INSTALLS    -= thismod_bin
 
 HEADERS += \
     doc/movie_credits.doxy.h
-
-LICENSE_FILES = movie_credits.taokey.notsigned
-include(../licenses.pri)
