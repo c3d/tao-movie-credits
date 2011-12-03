@@ -35,4 +35,4 @@ module_description "fr",
     name "Génériques de films"
     description "Quelques exemples de génériques de films classiques"
 
-import "movie_credits2.xl.bin"
+import "movie_credits2.xl.crypt"
