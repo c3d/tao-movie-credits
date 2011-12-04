@@ -35,8 +35,8 @@ PICTURES = \
 pics.path  = $$MODINSTPATH/images
 pics.files = $$PICTURES
 
-CRYPT_XL_SOURCES = movie_credits2.xl
-include(../crypt_xl.pri)
+BIN_XL_SOURCES = movie_credits2.xl
+include(../serialize_xl.pri)
 
 INSTALLS    += thismod_icon pics
 INSTALLS    -= thismod_bin
