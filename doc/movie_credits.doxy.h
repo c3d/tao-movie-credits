@@ -1,6 +1,5 @@
 /**
- * @defgroup MovieCredits Movie Credits
- * @ingroup Modules
+ * @taomoduledescription{MovieCredits, Movie Credits}
  *
  * Movie-style rolling credits
  *
@@ -15,6 +14,8 @@
  *
  * Here is a screen capture of this document:
  * @image html "movie_credits.png" "Output from movie_credits.ddd"
+ *
+ * @endtaomoduledescription{MovieCredits}
  * @{
  */
 
