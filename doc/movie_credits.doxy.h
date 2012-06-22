@@ -14,7 +14,7 @@
  * @include movie_credits.ddd
  *
  * Here is a screen capture of this document:
- * @image html "movie_credits.png" "Movie credits"
+ * @image html "movie_credits.png" "Output from movie_credits.ddd"
  *
  * @endtaomoduledescription{MovieCredits}
  *
