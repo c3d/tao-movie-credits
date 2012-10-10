@@ -2,7 +2,7 @@
  * @~english
  * @taomoduledescription{MovieCredits, Movie Credits}
  *
- * <tt>import MovieCredits</tt> - Movie-style rolling credits
+ * Movie-style rolling credits
  *
  * MovieCredits is a collection of ready-to-use movie-style rolling credits.
  *
@@ -21,7 +21,7 @@
  * @~french
  * @taomoduledescription{MovieCredits, Génériques de films}
  *
- * <tt>import MovieCredits</tt> - Affichage de textes à la manière de génériques de films.
+ * Affichage de textes à la manière de génériques de films.
  *
  * Le module MovieCredits propose des commandes telles que
  * @ref mc_star_wars_crawl, qui permettent de créer des animations avec du

@@ -1,21 +1,21 @@
 // ****************************************************************************
 //  movie_credits2.xl                                             Tao project
 // ****************************************************************************
-//
+// 
 //   File Description:
-//
+// 
 //    Implement various kinds of scrolling credits
-//
-//
-//
-//
-//
-//
-//
-//
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
 // ****************************************************************************
-// This software is property of Taodyne SAS - Confidential
-// Ce logiciel est la propriété de Taodyne SAS - Confidentiel
+// This document is released under the GNU General Public License.
+// See http://www.gnu.org/copyleft/gpl.html and Matthew 25:22 for details
 //  (C) 2011 Christophe de Dinechin <christophe@taodyne.com>
 //  (C) 2011 Jérôme Forissier <jerome@taodyne.com>
 //  (C) 2011 Catherine Burvelle <cathy@taodyne.com>
@@ -24,7 +24,7 @@
 
 // ============================================================================
 //
-//   Configuration
+//   Configuration 
 //
 // ============================================================================
 
@@ -34,29 +34,11 @@ mc_height -> 2500
 mc_size W:integer, H:integer -> mc_width := W; mc_height := H
 
 
-tao_duration -> 30
-duration D:integer -> tao_duration := D
 
-tao_formated_text -> ""
-formated_text T:text -> tao_formated_text := T
-tao_paragraph Body:tree ->
-    Body
-    editing Body
-    property_list "tao_paragraph", "text with format", "FormatedTextEditor",
-        item "formated_text", "text", "Description of text with format"
-
-
-star_wars Body:tree ->
-    Body
-    editing Body
-    property_list "star_wars", "star wars type", "",
-        item "duration", "int[0..+]", "Duration of the page"
-        item "tao_paragraph", "child", "Text"
-    mc_star_wars_crawl tao_duration, tao_formated_text
 // ============================================================================
-//
+// 
 //   Star Wars crawl
-//
+// 
 // ============================================================================
 
 mc_star_wars_crawl Duration:real, Body ->
@@ -114,9 +96,9 @@ mc_swc_planet_delay D:real -> mc_swc_planet_delay := D
 
 
 // ****************************************************************************
-//
+// 
 //    End credits
-//
+// 
 // ****************************************************************************
 
 mc_credits Duration:real, Speed:real, Body ->
@@ -186,33 +168,33 @@ mc_credits_width W:real -> mc_credits_width := W
 
 
 // ****************************************************************************
-//
+// 
 //   Internal helpers
-//
+// 
 // ****************************************************************************
 
-license_check -> check_impress_or_license "MovieCredits 1.004"
+license_check -> check_impress_or_license "MovieCredits 1.003"
 
 
 mc_swc_background ->
 // ----------------------------------------------------------------------------
 //   Show the stars in the background
 // ----------------------------------------------------------------------------
-    locally
+    locally 
         // We map the stars background on a large sphere in the background
         color "white"
         texture mc_swc_background_texture
         translate 0, 0, -2000
-        rotatey 0.03 * time + 90
+        rotatey 0.03 * time + 90 
 
         // We invert the sphere because we are inside it
-        scale 1, -1, 1
+        scale 1, -1, 1 
 
         // Wrap the texture and repeat it 8 times in each direction
-        texture_wrap true, true
-        texture_transform
+        texture_wrap true, true 
+        texture_transform 
             scale 6, 6, 6
-        sphere 7000
+        sphere 7000 
 
 
 mc_swc_planet Delay:real, Texture:text ->
@@ -253,13 +235,12 @@ mc_swc_text Duration:real, Body ->
 
     locally
         frame_texture mc_width, mc_height,
-            vertical_align 0.0
+            vertical_align 0.0 
             align 0.5, 1.0
-            font "Arial Narrow", 64, bold
+            font "Arial Narrow", 64, bold 
             paragraph_space 50, 50
             color "white"
-            text_box 0, 0, mc_width, mc_height, 
-                do parse Body
+            text_box 0, 0, 1200, 2000, Body
 
         locally
             license_check
