@@ -173,7 +173,7 @@ mc_credits_width W:real -> mc_credits_width := W
 // 
 // ****************************************************************************
 
-license_check -> check_impress_or_license "MovieCredits 1.003"
+license_check -> check_impress_or_license "MovieCredits 1.004"
 
 
 mc_swc_background ->
