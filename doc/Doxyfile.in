@@ -1,5 +1,5 @@
 @INCLUDE = ../../Doxyfile
 PROJECT_NAME = \"Movie Credits\"
-PROJECT_NUMBER = 1.005
-QHP_NAMESPACE = com.taodyne.TaoPresentations.modules.MovieCredits.1.005
+PROJECT_NUMBER = 1.004
+QHP_NAMESPACE = com.taodyne.TaoPresentations.modules.MovieCredits.1.004
 QHP_VIRTUAL_FOLDER = MovieCredits
