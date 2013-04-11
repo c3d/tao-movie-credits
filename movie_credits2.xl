@@ -22,10 +22,6 @@
 //  (C) 2011 Taodyne SAS
 // ****************************************************************************
 
-import Slides
-import Animate
-
-
 // ============================================================================
 //
 //   Configuration 
@@ -49,13 +45,13 @@ mc_star_wars_crawl Duration:real, Body ->
 // ----------------------------------------------------------------------------
 //    Create a Star-Wars style text crawl
 // ----------------------------------------------------------------------------
-    locally
-        if page_time > Duration then
-            rotatex 5 * fade_in(page_time - Duration, 20)
+    if page_time > Duration then
+        fade_in  Value:real, Dur:real  -> -expm1(-5 * Value / Dur)
+        rotatex 5 * fade_in(page_time - Duration, 20)
 
-        mc_swc_background
-        mc_swc_planet Duration, mc_swc_planet_texture
-        mc_swc_text Duration, Body
+    mc_swc_background
+    mc_swc_planet Duration, mc_swc_planet_texture
+    mc_swc_text Duration, Body
 
 
 mc_star_wars_crawl_ship Delay:real, Speed:real, Body ->
@@ -63,15 +59,17 @@ mc_star_wars_crawl_ship Delay:real, Speed:real, Body ->
 //   Show a ship
 // ----------------------------------------------------------------------------
     locally
+        license_check
         if page_time >= Delay - 2 then
-            scale x:real -> scale x, x, x
+            scale3 x:real -> scale x, x, x
+            fade_out Value:real, Duration:real  -> 1+expm1(-5 * Value/Duration)
 
             light 0
             light_position -400, 0, 2000
             color "white"
             rotatex -5
             translate 400, 200, Speed * (Delay - page_time)
-            scale fade_out(page_time - Delay, Delay)
+            scale3 fade_out(page_time - Delay, Delay)
             Body
 
 
@@ -80,15 +78,15 @@ mc_star_wars_crawl_ship Delay:real, Speed:real, Body ->
 // ============================================================================
 
 // Select the name of the stars in the background
-mc_swc_background_texture -> "movie_credits:Movie-Stars-Background.jpg"
+mc_swc_background_texture -> "image:Movie-Stars-Background.jpg"
 mc_swc_background_texture N:text -> mc_swc_background_texture := N
 
 // Select the texture for the planet
-mc_swc_planet_texture -> "movie_credits:Planet-Map.jpg"
+mc_swc_planet_texture -> "image:Planet-Map.jpg"
 mc_swc_planet_texture N:text -> mc_swc_planet_texture := N
 
 // Select the texture for the planet clouds
-mc_swc_clouds_texture -> "movie_credits:Planet-Clouds.png"
+mc_swc_clouds_texture -> "image:Planet-Clouds.png"
 mc_swc_clouds_texture N:text -> mc_swc_clouds_texture := N
 
 // Select how long before we roll down to the planet
@@ -110,7 +108,7 @@ mc_credits Duration:real, Speed:real, Body ->
     // Do not refresh because of external timer events
     no_refresh_on TimerEvent
 
-    contents 0,
+    locally
         color "white"
         frame_texture mc_width, mc_height,
             vertical_align 0.5
@@ -118,6 +116,7 @@ mc_credits Duration:real, Speed:real, Body ->
             font "Baskerville", "Times", 36
             Body
 
+        license_check
         locally
             rectangle 0, Speed*page_time-window_height*0.55, mc_width,mc_height
 
@@ -174,12 +173,14 @@ mc_credits_width W:real -> mc_credits_width := W
 // 
 // ****************************************************************************
 
+license_check -> check_impress_or_license "MovieCredits 1.004"
+
 
 mc_swc_background ->
 // ----------------------------------------------------------------------------
 //   Show the stars in the background
 // ----------------------------------------------------------------------------
-    background 0, 
+    locally 
         // We map the stars background on a large sphere in the background
         color "white"
         texture mc_swc_background_texture
@@ -200,13 +201,14 @@ mc_swc_planet Delay:real, Texture:text ->
 // ----------------------------------------------------------------------------
 //   Draw the planet with the given texture
 // ----------------------------------------------------------------------------
-    background -500,
+    locally
+        license_check
         color "white"
         texture mc_swc_planet_texture
         texture_wrap true, true
         texture_transform
             scale 4, 4, 4
-        translate 0,-2700-100 * expm1(Delay - page_time),0
+        translate 0,-3100-100 * expm1(Delay - page_time),-200
         rotatex -60
         rotatez 27
         rotatey 0.03 * time
@@ -228,25 +230,27 @@ mc_swc_text Duration:real, Body ->
 // ----------------------------------------------------------------------------
 //   Draw the Star Wars scrolling text
 // ----------------------------------------------------------------------------
-    contents 0,
+    // Surrounding timer events shouldn't cause re-evaluation of frame texture
+    no_refresh_on TimerEvent
+
+    locally
         frame_texture mc_width, mc_height,
             vertical_align 0.0 
             align 0.5, 1.0
             font "Arial Narrow", 64, bold 
             paragraph_space 50, 50
-            color 1, 0.8, 0.2
-            text_box 0, 0, mc_width, mc_height, Body
+            color "white"
+            text_box 0, 0, 1200, 2000, Body
 
-        // We want a smooth text
-        texture_min_filter "LINEAR_MIPMAP_LINEAR"
         locally
+            license_check
             translate 0, -window_height/2, 0
             rotatex -70
             translatey mc_height * (3 * page_time / Duration - 1.5)
-            color "white", 0.9+0.9*expm1 (Duration-page_time)
+            color 1, 0.8, 0.2, 0.9+0.9*expm1 (Duration-page_time)
             scale 1, 3, 1
             rectangle 0, 0, mc_width, mc_height
 
 
 // Add this module's images/ directory to the image search path
-add_search_path "movie_credits:", module_dir & "/images"
+add_search_path "image:", module_dir & "/images"
