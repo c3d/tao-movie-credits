@@ -45,13 +45,14 @@ mc_star_wars_crawl Duration:real, Body ->
 // ----------------------------------------------------------------------------
 //    Create a Star-Wars style text crawl
 // ----------------------------------------------------------------------------
-    if page_time > Duration then
-        fade_in  Value:real, Dur:real  -> -expm1(-5 * Value / Dur)
-        rotatex 5 * fade_in(page_time - Duration, 20)
+    locally
+        if page_time > Duration then
+            fade_in  Value:real, Dur:real  -> -expm1(-5 * Value / Dur)
+            rotatex 5 * fade_in(page_time - Duration, 20)
 
-    mc_swc_background
-    mc_swc_planet Duration, mc_swc_planet_texture
-    mc_swc_text Duration, Body
+        mc_swc_background
+        mc_swc_planet Duration, mc_swc_planet_texture
+        mc_swc_text Duration, Body
 
 
 mc_star_wars_crawl_ship Delay:real, Speed:real, Body ->
@@ -242,6 +243,8 @@ mc_swc_text Duration:real, Body ->
             color "white"
             text_box 0, 0, 1200, 2000, Body
 
+        // We want a smooth text
+        texture_min_filter "LINEAR_MIPMAP_LINEAR"
         locally
             license_check
             translate 0, -window_height/2, 0
