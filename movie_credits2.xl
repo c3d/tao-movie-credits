@@ -59,7 +59,6 @@ mc_star_wars_crawl_ship Delay:real, Speed:real, Body ->
 //   Show a ship
 // ----------------------------------------------------------------------------
     locally
-        license_check
         if page_time >= Delay - 2 then
             scale3 x:real -> scale x, x, x
             fade_out Value:real, Duration:real  -> 1+expm1(-5 * Value/Duration)
@@ -116,7 +115,6 @@ mc_credits Duration:real, Speed:real, Body ->
             font "Baskerville", "Times", 36
             Body
 
-        license_check
         locally
             rectangle 0, Speed*page_time-window_height*0.55, mc_width,mc_height
 
@@ -173,8 +171,6 @@ mc_credits_width W:real -> mc_credits_width := W
 // 
 // ****************************************************************************
 
-license_check -> check_impress_or_license "MovieCredits 1.004"
-
 
 mc_swc_background ->
 // ----------------------------------------------------------------------------
@@ -202,7 +198,6 @@ mc_swc_planet Delay:real, Texture:text ->
 //   Draw the planet with the given texture
 // ----------------------------------------------------------------------------
     locally
-        license_check
         color "white"
         texture mc_swc_planet_texture
         texture_wrap true, true
@@ -243,7 +238,6 @@ mc_swc_text Duration:real, Body ->
             text_box 0, 0, 1200, 2000, Body
 
         locally
-            license_check
             translate 0, -window_height/2, 0
             rotatex -70
             translatey mc_height * (3 * page_time / Duration - 1.5)
