@@ -235,7 +235,7 @@ mc_swc_text Duration:real, Body ->
             align 0.5, 1.0
             font "Arial Narrow", 64, bold 
             paragraph_space 50, 50
-            color "white"
+            color 1, 0.8, 0.2
             text_box 0, 0, mc_width, mc_height, Body
 
         // We want a smooth text
@@ -244,7 +244,7 @@ mc_swc_text Duration:real, Body ->
             translate 0, -window_height/2, 0
             rotatex -70
             translatey mc_height * (3 * page_time / Duration - 1.5)
-            color 1, 0.8, 0.2, 0.9+0.9*expm1 (Duration-page_time)
+            color "white", 0.9+0.9*expm1 (Duration-page_time)
             scale 1, 3, 1
             rectangle 0, 0, mc_width, mc_height
 
